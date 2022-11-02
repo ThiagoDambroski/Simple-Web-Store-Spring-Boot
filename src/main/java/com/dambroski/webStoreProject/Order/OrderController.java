@@ -19,7 +19,7 @@ public class OrderController {
 	@Autowired
 	OrderService service;
 	
-	@GetMapping
+	@GetMapping()
 	public List<Order> getOrders(){
 		return service.getOrders();
 	}
@@ -29,13 +29,13 @@ public class OrderController {
 		service.postOrder(order);
 	}
 	
-	@DeleteMapping("{orderId}")
+	@DeleteMapping("/{orderId}")
 	public void deleteOrders(@PathVariable(name = "orderId") long orderId) {
 		service.deleteOrder(orderId);
 	}
 	
-	@PutMapping("{orderId}")
-	public void updateOrder(@RequestBody Order order, @PathVariable(name = "orderId") long orderId) {
+	@PutMapping("/{orderId}")
+	public void updateOrder(@PathVariable(name = "orderId") long orderId,@RequestBody Order order) {
 		service.updateOrder(order,orderId);
 	}
 	

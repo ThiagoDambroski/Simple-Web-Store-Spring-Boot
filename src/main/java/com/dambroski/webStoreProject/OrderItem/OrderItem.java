@@ -1,6 +1,7 @@
-package com.dambroski.webStoreProject.Order;
+package com.dambroski.webStoreProject.OrderItem;
 
-import javax.persistence.CascadeType;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.SequenceGenerator;
 import com.dambroski.webStoreProject.Itens.Item;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,17 +21,26 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItem {
-	
-	
+@Builder
+
+public class OrderItem implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+
 	@Id
 	@SequenceGenerator(name = "order_item_sequence",sequenceName = "order_item_sequence",allocationSize = 1)
 	@GeneratedValue(generator = "order_item_sequence",strategy = GenerationType.SEQUENCE)
 	private long OrderItemId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "itemId", referencedColumnName = "itemId")
+	
+	private long idItem;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "item_id",updatable = true)
 	private Item item;
+	
+	
 	private int quantity;
 	
 	

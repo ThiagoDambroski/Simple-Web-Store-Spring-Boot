@@ -16,15 +16,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class Item{
 	
 	@Id
 	@SequenceGenerator(name = "item_sequence",sequenceName = "item_sequence",allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "item_sequence")
-	private Long ItemId;
+	private long id;
 	private String name;
 	private double price;
 	private int stock;
+	
+	
+	
+	
+	
 	
 	
 	
