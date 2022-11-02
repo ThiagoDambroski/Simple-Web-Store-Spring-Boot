@@ -49,5 +49,11 @@ public class ItemServiceimpl implements ItemService{
 		
 		return repository.findById(itemId).get();
 	}
+
+	@Override
+	public List<Item> getItemByName(String name) {
+		
+		return repository.findByNameLike(name);
+	}
 	
 }

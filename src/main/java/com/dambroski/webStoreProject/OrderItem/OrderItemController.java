@@ -30,12 +30,12 @@ public class OrderItemController {
 		
 	}
 	
-	@DeleteMapping("/{orderItemId}")
+	@DeleteMapping("{orderItemId}")
 	public void deleteOrderItem(@PathVariable(name = "orderItemId") long orderItemId) {
 		service.deleteOrderItem(orderItemId);
 	}
 	
-	@PutMapping("/{orderItemId}")
+	@PutMapping("{orderItemId}")
 	public void putOrderItem(@PathVariable(name = "orderItemId") long orderItemId,@RequestBody OrderItem orderItem) {
 		service.putOrderItem(orderItem,orderItemId);
 	}

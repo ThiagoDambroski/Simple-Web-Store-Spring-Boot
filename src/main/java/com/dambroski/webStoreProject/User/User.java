@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class User {
 	private Long userId;
 	private String name;
 	@NotBlank(message = "please insert a email")
+	@Email
 	private String email;
 	
 

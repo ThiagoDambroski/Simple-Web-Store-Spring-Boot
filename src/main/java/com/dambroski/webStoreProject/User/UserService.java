@@ -14,4 +14,8 @@ public interface UserService {
 
 	public void deleteUser(Long userId);
 
+	public User getUserById(long userId);
+
+	public User getUserByEmail(String email);
+
 }

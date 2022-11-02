@@ -43,6 +43,13 @@ public class ItemController {
 		service.updateItem(itemId,item);
 	}
 	
+	@GetMapping("/name/{name}")
+	public List<Item> getItemByName(@PathVariable(value = "name") String name) {
+		return service.getItemByName(name);
+	}
+	
+	
+	
 	
 
 }

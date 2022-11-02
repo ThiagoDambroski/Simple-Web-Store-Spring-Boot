@@ -36,26 +36,28 @@ public class OrdemItemServiceImpl implements OrderItemService {
 			orderItem.setItem(newItem);
 		}
 
-		System.out.println("foi");
-
-		System.out.println("foi2");
-		
-
 		repository.save(orderItem);
 
 	}
 
 	@Override
 	public void putOrderItem(OrderItem orderItem, long orderItemId) {
+		
 		OrderItem oldOrderItem = repository.findById(orderItemId).get();
-		if (Objects.nonNull(orderItem.getItem())) {
-			oldOrderItem.setItem(orderItem.getItem());
-		}
+		
+		if (orderItem.getItem() != oldOrderItem.getItem()) {
+			Item newItem = itemRepository.findById(orderItem.getIdItem()).get();
+			oldOrderItem.setItem(newItem);
+		} 
+		
 		if (Objects.nonNull(orderItem.getQuantity())) {
 			oldOrderItem.setQuantity(orderItem.getQuantity());
 		}
 
+			
 		repository.save(oldOrderItem);
+		
+	
 
 	}
 

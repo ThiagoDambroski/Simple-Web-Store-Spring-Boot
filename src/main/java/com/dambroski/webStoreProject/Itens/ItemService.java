@@ -14,4 +14,7 @@ public interface ItemService {
 
 	public Item getItemById(Long itemId);
 
+	public List<Item> getItemByName(String name);
+
+	
 }

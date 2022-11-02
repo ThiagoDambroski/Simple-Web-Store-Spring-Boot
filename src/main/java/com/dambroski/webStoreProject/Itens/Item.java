@@ -22,7 +22,7 @@ public class Item{
 	@Id
 	@SequenceGenerator(name = "item_sequence",sequenceName = "item_sequence",allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "item_sequence")
-	private long id;
+	private long itemId;
 	private String name;
 	private double price;
 	private int stock;
