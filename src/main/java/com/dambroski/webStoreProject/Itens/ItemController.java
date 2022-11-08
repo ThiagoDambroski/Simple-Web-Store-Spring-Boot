@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dambroski.webStoreProject.error.InvalidRequestException;
 import com.dambroski.webStoreProject.error.ItemNotFoundException;
 
 @RestController
@@ -40,8 +41,9 @@ public class ItemController {
 		service.deleteById(itemId);
 	}
 	
-	@PutMapping("/{itemId}")
-	public void putItem(@PathVariable(value = "itemId") Long itemId, @RequestBody Item item) throws ItemNotFoundException {
+	@PutMapping("/put/{itemId}")
+	public void putItem(@PathVariable(value = "itemId") Long itemId, @RequestBody Item item) throws ItemNotFoundException
+	, InvalidRequestException {
 		service.updateItem(itemId,item);
 	}
 	

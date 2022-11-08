@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.webStoreProject.error.InvalidRequestException;
 import com.dambroski.webStoreProject.error.ItemNotFoundException;
 
 @Service
@@ -54,8 +55,14 @@ public class ItemServiceimpl implements ItemService{
 	}
 
 	@Override
-	public void updateItem(Long itemId, Item item) throws ItemNotFoundException {
+	public void updateItem(Long itemId, Item item) throws ItemNotFoundException, InvalidRequestException {
+		if(itemId == null) {
+			throw new InvalidRequestException("The id can not be null");
+		}
 		Optional<Item> newItem = repository.findById(itemId);
+		if(newItem.isEmpty()) {
+			throw new ItemNotFoundException("Item " + itemId + " not found");
+		}
 		if(Objects.nonNull(item.getName())&& !"".equals(item.getName())) {
 			newItem.get().setName(item.getName());
 			

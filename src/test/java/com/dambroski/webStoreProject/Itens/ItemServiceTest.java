@@ -166,4 +166,47 @@ class ItemServiceTest {
 		
 		
 	}
+	
+	
+	@Test
+	public void putItem() throws Exception {
+		Item updateItem = Item.builder().itemId(1).name("controller").price(60).stock(10).build();
+		Mockito.when(repository.findById(item.get().getItemId())).thenReturn(item);
+		Mockito.when(repository.save(updateItem)).thenReturn(updateItem);
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/item/post")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(this.mapper.writeValueAsBytes(updateItem));
+		
+		mockMvc.perform(mockRequest)
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$",Matchers.notNullValue()))
+			.andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("controller")));
+	}
+	
+
+	@Test
+	public void testeItemNotFoundInPut() throws Exception {
+		Optional<Item> updateItem = Optional.of(Item.builder().itemId(6).name("controller").price(12).stock(6).build());
+		
+		Mockito.when(repository.findById(updateItem.get().getItemId())).thenReturn(Optional.empty());
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/item/put/6")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(getArticleInJson(6, updateItem.get()));
+		
+		
+		mockMvc.perform(mockRequest)
+				.andExpect(MockMvcResultMatchers.status().isNotFound())
+				.andExpect(result -> assertTrue(result.getResolvedException() instanceof ItemNotFoundException))
+				.andExpect(result -> assertEquals("Item " + 6 + " not found", result.getResolvedException().getMessage()));
+	}
+	
+	private String getArticleInJson(long id, Item content) {
+        return "{\"itemId\":\"" + id + "\", \"content\":\"" + content + "\"}";
+    }
+	
+	
 }

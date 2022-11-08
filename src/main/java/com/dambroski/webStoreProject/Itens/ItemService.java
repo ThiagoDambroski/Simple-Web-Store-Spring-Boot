@@ -2,6 +2,7 @@ package com.dambroski.webStoreProject.Itens;
 
 import java.util.List;
 
+import com.dambroski.webStoreProject.error.InvalidRequestException;
 import com.dambroski.webStoreProject.error.ItemNotFoundException;
 
 public interface ItemService {
@@ -12,7 +13,7 @@ public interface ItemService {
 
 	public void deleteById(Long itemId) throws ItemNotFoundException;
 
-	public void updateItem(Long itemId, Item item) throws ItemNotFoundException;
+	public void updateItem(Long itemId, Item item) throws ItemNotFoundException, InvalidRequestException;
 
 	public Item getItemById(Long itemId) throws ItemNotFoundException;
 
