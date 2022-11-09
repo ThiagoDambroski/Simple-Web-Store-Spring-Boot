@@ -4,18 +4,20 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.dambroski.webStoreProject.error.UserNotFoundException;
+
 public interface UserService {
 	
 	public List<User> getUsers();
 
 	public void newUser(@Valid User user);
 
-	public void updateUser(Long userId, User user);
+	public void updateUser(Long userId, User user) throws UserNotFoundException;
 
-	public void deleteUser(Long userId);
+	public void deleteUser(Long userId) throws UserNotFoundException;
 
-	public User getUserById(long userId);
+	public User getUserById(long userId) throws UserNotFoundException;
 
-	public User getUserByEmail(String email);
+	public User getUserByEmail(String email) throws UserNotFoundException;
 
 }

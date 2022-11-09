@@ -19,4 +19,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
 	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ErrorMessage> userNotFoundException(UserNotFoundException exception, WebRequest request){
+		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+	}
 }

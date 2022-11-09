@@ -54,14 +54,7 @@ class ItemServiceTest {
 	Optional<Item> item = Optional.of(Item.builder().itemId(1).name("book").price(20).stock(10).build());
 	Optional<Item> item2 = Optional.of(Item.builder().itemId(2).name("book about life").price(10).stock(5).build());
 	Optional<Item> item3 = Optional.of(Item.builder().itemId(3).name("pen").price(15).stock(40).build());
-
-//	@BeforeEach
-//	void setUp() {
-//		Optional<Item> item = Optional.of(Item.builder().itemId(1).name("pen").price(3.5).stock(20).build());
-//
-//		Mockito.when(repository.findById((long) 1)).thenReturn(item);
-//
-//	}
+	
 
 	@Test
 	public void findItemByItemName() throws Exception {
@@ -78,7 +71,8 @@ class ItemServiceTest {
 
 	}
 	
-	@Test
+	
+	@Test 	//Exception Test
 	public void testItemNotFoundExceptionInItemByName() throws Exception {
 		List<Item> list = new ArrayList<>();
 		Mockito.when(repository.findByNameLike("name")).thenReturn(list);
@@ -94,7 +88,7 @@ class ItemServiceTest {
 	}
 	
 
-	@Test
+	@Test 
 	public void findItemById() throws Exception {
 		Mockito.when(repository.findById(item.get().getItemId())).thenReturn(item);
 		
@@ -107,7 +101,7 @@ class ItemServiceTest {
 
 	}
 	
-	@Test
+	@Test 	//Exception Test
 	public void testItemNotFoundExceptionInItemByID() throws Exception {
 		Mockito.when(repository.findById((long) 5)).thenReturn(Optional.empty());
 		
@@ -153,7 +147,7 @@ class ItemServiceTest {
 
 	}
 	
-	@Test
+	@Test //Exception Test
 	public void testItemNotFoundExceptionInDeleteById() throws Exception {
 		Mockito.when(repository.findById((long)5)).thenReturn(Optional.empty());
 		
@@ -186,7 +180,7 @@ class ItemServiceTest {
 	}
 	
 
-	@Test
+	@Test //Exception Test
 	public void testeItemNotFoundInPut() throws Exception {
 		Optional<Item> updateItem = Optional.of(Item.builder().itemId(6).name("controller").price(12).stock(6).build());
 		
