@@ -10,7 +10,7 @@ public interface UserService {
 	
 	public List<User> getUsers();
 
-	public void newUser(@Valid User user);
+	public User postUser(@Valid User user);
 
 	public void updateUser(Long userId, User user) throws UserNotFoundException;
 

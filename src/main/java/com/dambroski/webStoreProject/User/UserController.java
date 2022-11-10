@@ -29,8 +29,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/post")
-	public void newUser(@Valid @RequestBody User user) {
-		service.newUser(user);
+	public User postUser(@Valid @RequestBody User user) {
+		return service.postUser(user);
 	}
 	
 	@PutMapping("/put/{userId}")

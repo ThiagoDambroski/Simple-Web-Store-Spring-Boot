@@ -10,13 +10,14 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dambroski.webStoreProject.error.UserNotFoundException;
@@ -68,7 +69,7 @@ class UserServiceTest {
 	
 	@Test
 	public void findUserByEmail() throws Exception {
-		Mockito.when(repository.findByUserEmail(user.get().getEmail())).thenReturn(user);
+		Mockito.when(repository.findByEmail(user.get().getEmail())).thenReturn(user.get());
 		
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/user/email/leticia@gmail.com")
 				.contentType(MediaType.APPLICATION_JSON))
@@ -79,7 +80,7 @@ class UserServiceTest {
 	
 	@Test
 	public void testUserNotFoundInUserByEmail() throws Exception {
-		Mockito.when(repository.findByUserEmail("thiago@hotmail.com")).thenReturn(Optional.empty());
+		Mockito.when(repository.findByEmail("thiago@hotmail.com")).thenReturn(null);
 		
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/user/email/thiago@hotmail.com")
 						.contentType(MediaType.APPLICATION_JSON))
@@ -88,6 +89,69 @@ class UserServiceTest {
 					.andExpect(result -> assertEquals(result.getResolvedException().getMessage(), 
 							"Email " + "thiago@hotmail.com" + " not found"));
 		
+	}
+	
+	@Test
+	public void postUser() throws Exception {
+		User newUser = User.builder().name("denji").email("denji@gmail.com").build();
+		
+		Mockito.when(repository.save(newUser)).thenReturn(newUser);
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/user/post")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(this.mapper.writeValueAsString(newUser));
+		
+		mockMvc.perform(mockRequest)
+			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$",Matchers.notNullValue()))
+			.andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("denji")));
+		
+		
+	}
+	
+	@Test
+	public void deleteUserById() throws Exception {
+		Mockito.when(repository.findById(user.get().getUserId())).thenReturn(user);
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/delete/1")
+				.contentType(MediaType.APPLICATION_JSON))
+		.andExpect(MockMvcResultMatchers.status().isOk());
+		
+	}
+	
+	@Test
+	public void testUserNotFoundInDeleteById() throws Exception {
+		Mockito.when(repository.findById(user.get().getUserId())).thenReturn(Optional.empty());
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/delete/1")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isNotFound())
+				.andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
+				.andExpect(result -> assertEquals(result.getResolvedException().getMessage(),"User " + 1 + " not found"));
+	}
+	
+	
+
+	@Test
+	public void putUser() throws Exception {
+		User newUser = User.builder().email("thiagol@hotmail.com").name("leticiat").userId((long)1).build();
+		Mockito.when(repository.findById(user.get().getUserId())).thenReturn(user);
+		Mockito.when(repository.save(newUser)).thenReturn(newUser);
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/user/post")
+													.contentType(MediaType.APPLICATION_JSON)
+													.accept(MediaType.APPLICATION_JSON)
+													.content(this.mapper.writeValueAsBytes(newUser));
+	
+		mockMvc.perform(mockRequest)
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$",Matchers.notNullValue()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is(newUser.getEmail())));
+	
+	
 	}
 
 	

@@ -32,7 +32,12 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserByEmail(String email) throws UserNotFoundException {
-		Optional<User> user = repository.findByUserEmail(email);
+		Optional<User> user;
+		if(repository.findByEmail(email) == null) {
+			 user = Optional.empty();
+		}else {
+			user = Optional.of(repository.findByEmail(email));
+		}
 		if(user.isEmpty()) {
 			throw new UserNotFoundException("Email " + email + " not found");
 		}
@@ -40,8 +45,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void newUser(@Valid User user) {
-		repository.save(user);
+	public User postUser(@Valid User user) {
+		return repository.save(user);
 		
 	}
 
@@ -55,9 +60,10 @@ public class UserServiceImpl implements UserService{
 		if(Objects.nonNull(user.getName()) && !"".equals(user.getName())) {
 			newUser.get().setName(user.getName());
 		}
+		if(Objects.nonNull(user.getEmail()) && !"".equals(user.getEmail())) {
 		
 		newUser.get().setEmail(user.getEmail());
-		
+		}
 		repository.save(newUser.get());
 	}
 
