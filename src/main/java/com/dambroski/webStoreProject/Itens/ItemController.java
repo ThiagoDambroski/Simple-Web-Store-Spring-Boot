@@ -52,6 +52,13 @@ public class ItemController {
 		return service.getItemByName(name);
 	}
 	
+	@PutMapping("/giveDiscount/{itemId}/{discountPercentage}")
+	public void giveItemUpdate(@PathVariable(value = "itemId") long id, @PathVariable(value = "discountPercentage") 
+			double discount) {
+		service.giveItemDiscount(id,discount);
+		
+	}
+	
 	
 	
 	

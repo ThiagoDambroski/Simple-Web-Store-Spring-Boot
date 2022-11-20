@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +74,16 @@ public class ItemServiceimpl implements ItemService{
 		}
 		
 		repository.save(newItem.get());
+		
+	}
+
+	@Override
+	public void giveItemDiscount(long id, double discount) {
+		Item newItem = repository.findById(id).get();
+		double intialPrice = newItem.getPrice();
+		double newPrice = intialPrice  - (intialPrice * discount / 100);
+		newItem.setPrice(newPrice);
+		repository.save(newItem);
 		
 	}
 

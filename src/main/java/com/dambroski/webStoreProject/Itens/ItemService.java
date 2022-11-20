@@ -19,5 +19,7 @@ public interface ItemService {
 
 	public List<Item> getItemByName(String name) throws ItemNotFoundException;
 
+	public void giveItemDiscount(long id, double discount);
+
 	
 }
