@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.webStoreProject.Itens.Item;
+import com.dambroski.webStoreProject.Itens.ItemRepository;
 import com.dambroski.webStoreProject.error.UserNotFoundException;
 
 @Service
@@ -16,6 +18,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	UserRepository repository;
+	
+	@Autowired
+	ItemRepository itemRepository;
 
 	@Override
 	public List<User> getUsers() {
@@ -74,6 +79,30 @@ public class UserServiceImpl implements UserService{
 			throw new UserNotFoundException("User " + userId + " not found");
 		}
 		repository.deleteById(userId);
+		
+	}
+	
+	@Override
+	public void addItemToWishList(long userId, long itemId) {
+		Item item = itemRepository.findById(itemId).get();
+		User user = repository.findById(userId).get();
+		
+		user.getWhishList().add(item);
+		repository.save(user);
+		
+	}
+	@Override
+	public void removeItemFromWishList(long userId, long itemId) {
+		User user = repository.findById(userId).get();
+		int n = 0;
+		for (Item item : user.getWhishList()) {
+			if(item.getItemId() == itemId) {
+				break;
+			}
+			n++;
+		}
+		user.getWhishList().remove(n);
+		repository.save(user);
 		
 	}
 

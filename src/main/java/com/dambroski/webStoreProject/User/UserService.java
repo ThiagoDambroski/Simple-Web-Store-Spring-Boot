@@ -20,4 +20,8 @@ public interface UserService {
 
 	public User getUserByEmail(String email) throws UserNotFoundException;
 
+	public void addItemToWishList(long userId, long itemId);
+
+	public void removeItemFromWishList(long userId, long itemId);
+
 }

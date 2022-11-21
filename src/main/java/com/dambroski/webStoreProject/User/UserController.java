@@ -28,6 +28,12 @@ public class UserController {
 		return service.getUsers();
 	}
 	
+	@GetMapping("/get/{userId}")
+	public User getUserById(@PathVariable(name = "userId") long userId) throws UserNotFoundException {
+		return service.getUserById(userId);
+	}
+	
+	
 	@PostMapping("/post")
 	public User postUser(@Valid @RequestBody User user) {
 		return service.postUser(user);
@@ -43,13 +49,20 @@ public class UserController {
 		service.deleteUser(userId);
 	}
 	
-	@GetMapping("/get/{userId}")
-	public User getUserById(@PathVariable(name = "userId") long userId) throws UserNotFoundException {
-		return service.getUserById(userId);
-	}
 	
 	@GetMapping("/email/{email}")
 	public User getUserByEmail(@PathVariable(name = "email") String email) throws UserNotFoundException {
 		return service.getUserByEmail(email);
+	}
+	
+	@PutMapping("/addItemToWishList/user/{userId}/item/{itemId}")
+	public void addItemToWishList(@PathVariable("userId") long userId,@PathVariable("itemId") long itemId) {
+		service.addItemToWishList(userId,itemId);
+		
+	}
+	
+	@PutMapping("/removeItemFromWishlist/user/{userId}/item/{itemId}")
+	public void removeItemFromWishList(@PathVariable("userId") long userId, @PathVariable("itemId") long itemId) {
+		service.removeItemFromWishList(userId,itemId);
 	}
 }

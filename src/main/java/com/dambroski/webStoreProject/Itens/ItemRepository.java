@@ -13,5 +13,8 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 
 	@Query("select i from Item i where i.name LIKE '%'||:name||'%'")
 	 List<Item> findByNameLike(@Param("name") String name);
+	
+	@Query("select i from Item i where i.price <= :limit")
+	List<Item> findByLimitValue(@Param("limit") double limit);
 
 }

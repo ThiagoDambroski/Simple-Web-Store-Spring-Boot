@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.dambroski.webStoreProject.Category.Category;
+import com.dambroski.webStoreProject.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +36,10 @@ public class Item{
 	
 	@ManyToMany(mappedBy = "itens")
 	private List<Category> category;
+	
+	@ManyToMany(mappedBy = "whishList")
+	@JsonIgnore
+	private List<User> user;
 	
 	
 	

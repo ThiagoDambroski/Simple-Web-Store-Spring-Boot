@@ -31,6 +31,17 @@ public class ItemController {
 		return service.getItemById(itemId);
 	}
 	
+	@GetMapping("/name/{name}")
+	public List<Item> getItemByName(@PathVariable(value = "name") String name) throws ItemNotFoundException {
+		return service.getItemByName(name);
+	}
+	
+	@GetMapping("/filter/priceLimit/{priceLimit}")
+	public List<Item> getItemByPriceLimit(@PathVariable("priceLimit") double limit){
+		return service.getItemByPriceLimit(limit);
+		
+	}
+	
 	@PostMapping("/post")
 	public Item postItem(@RequestBody Item item) {
 		return service.postItem(item);
@@ -47,10 +58,7 @@ public class ItemController {
 		service.updateItem(itemId,item);
 	}
 	
-	@GetMapping("/name/{name}")
-	public List<Item> getItemByName(@PathVariable(value = "name") String name) throws ItemNotFoundException {
-		return service.getItemByName(name);
-	}
+	
 	
 	@PutMapping("/giveDiscount/{itemId}/{discountPercentage}")
 	public void giveItemUpdate(@PathVariable(value = "itemId") long id, @PathVariable(value = "discountPercentage") 

@@ -87,6 +87,11 @@ public class ItemServiceimpl implements ItemService{
 		
 	}
 
+	@Override
+	public List<Item> getItemByPriceLimit(double limit) {
+		return repository.findByLimitValue(limit);
+	}
+
 
 	
 }

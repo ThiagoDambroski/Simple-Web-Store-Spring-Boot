@@ -21,5 +21,7 @@ public interface ItemService {
 
 	public void giveItemDiscount(long id, double discount);
 
+	public List<Item> getItemByPriceLimit(double limit);
+
 	
 }
