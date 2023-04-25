@@ -6,7 +6,7 @@ public interface OrderService {
 	
 	public List<Order> getOrders();
 
-	public void postOrder(Order order) throws Exception;
+	public void postOrder(Order order, Long userId) throws Exception;
 
 	public void deleteOrder(long orderId);
 

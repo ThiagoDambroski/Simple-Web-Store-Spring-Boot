@@ -35,9 +35,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void postOrder(Order order) throws Exception {
+	public void postOrder(Order order,Long userId) throws Exception {
 		if(order.getUser() == null) {
-			order.setUser(userRepository.findById(order.getIdUser()).get());
+			order.setUser(userRepository.findById(userId).get());
 		}
 		if(order.getItens() == null) {
 			order.setItens(new HashSet<OrderItem>());

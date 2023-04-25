@@ -50,7 +50,6 @@ public class Order {
 	private User user;
 	
 	
-	private long idUser;
 	
 	
 	@ManyToMany(cascade = CascadeType.ALL)

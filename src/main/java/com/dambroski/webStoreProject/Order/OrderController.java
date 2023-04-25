@@ -24,9 +24,9 @@ public class OrderController {
 		return service.getOrders();
 	}
 	
-	@PostMapping()
-	public void postOrders(@RequestBody Order order ) throws Exception {
-		service.postOrder(order);
+	@PostMapping("/{userId}")
+	public void postOrders(@RequestBody Order order ,@PathVariable Long userId) throws Exception {
+		service.postOrder(order,userId);
 	}
 	
 	@DeleteMapping("/{orderId}")
