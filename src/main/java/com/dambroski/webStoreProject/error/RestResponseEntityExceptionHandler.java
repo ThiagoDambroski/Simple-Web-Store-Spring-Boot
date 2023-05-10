@@ -25,4 +25,58 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
 	}
+	
+	@ExceptionHandler(CategoryNotFoundException.class)
+	public ResponseEntity<ErrorMessage> categoryNotFoundException(CategoryNotFoundException exception, 
+			WebRequest request){
+		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+	}
+	
+	@ExceptionHandler(ItemDontHaveCategoryException.class)
+	public ResponseEntity<ErrorMessage> itemDontHaveCategoryException(ItemDontHaveCategoryException exception,
+			WebRequest request){
+		ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+	}
+	
+	@ExceptionHandler(NotEnoughItemsException.class)
+	public ResponseEntity<ErrorMessage> notEnoughtItemException(NotEnoughItemsException exception,
+			WebRequest request){
+		
+		ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+		
+	}
+	
+	@ExceptionHandler(OrderItemNotFoundException.class)
+	public ResponseEntity<ErrorMessage> orderItemNotFoundException(OrderItemNotFoundException exception,
+			WebRequest request){
+		
+		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+		
+	}
+	
+	@ExceptionHandler(OrderNotFoundException.class)
+	public ResponseEntity<ErrorMessage> orderNotFoundException(OrderNotFoundException exception, WebRequest request){
+		
+		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+		
+	}
+	
+	@ExceptionHandler(CanNotPaidCancelledOrderException.class)
+	public ResponseEntity<ErrorMessage> canNotPaidCancelledOrder(CanNotPaidCancelledOrderException exception, 
+			WebRequest request){
+		
+		ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+	}
 }

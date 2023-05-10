@@ -12,15 +12,15 @@ public interface UserService {
 
 	public User postUser(@Valid User user);
 
-	public void updateUser(Long userId, User user) throws UserNotFoundException;
+	public User updateUser(Long userId, User user) throws UserNotFoundException;
 
 	public void deleteUser(Long userId) throws UserNotFoundException;
 
 	public User getUserById(long userId) throws UserNotFoundException;
 
-	public User getUserByEmail(String email) throws UserNotFoundException;
+	public List<User> getUserByEmail(String email) throws UserNotFoundException;
 
-	public void addItemToWishList(long userId, long itemId);
+	public User addItemToWishList(long userId, long itemId);
 
 	public void removeItemFromWishList(long userId, long itemId);
 

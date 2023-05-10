@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.dambroski.webStoreProject.Itens.Item;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,8 @@ public class Category {
 	
 	private String name;
 	
+	
+	@JsonIgnoreProperties({"category"})
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "category_item_map",joinColumns = @JoinColumn(
 			name = "category_id", 

@@ -13,15 +13,19 @@ public interface ItemService {
 
 	public void deleteById(Long itemId) throws ItemNotFoundException;
 
-	public void updateItem(Long itemId, Item item) throws ItemNotFoundException, InvalidRequestException;
+	public Item updateItem(Long itemId, Item item) throws ItemNotFoundException, InvalidRequestException;
 
 	public Item getItemById(Long itemId) throws ItemNotFoundException;
 
 	public List<Item> getItemByName(String name) throws ItemNotFoundException;
 
-	public void giveItemDiscount(long id, double discount);
+	public Item giveItemDiscount(long id, double discount);
 
 	public List<Item> getItemByPriceLimit(double limit);
+
+	public Item addCategory(long id, long categoryId);
+
+	public Item removeCategory(long id, long categoryId);
 
 	
 }

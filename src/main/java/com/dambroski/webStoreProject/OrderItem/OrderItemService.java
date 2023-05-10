@@ -8,9 +8,9 @@ public interface OrderItemService {
 
 	void deleteOrderItem(long orderItemId);
 
-	void postOrderItem(OrderItem orderItem);
+	OrderItem postOrderItem(OrderItem orderItem, long itemId);
 
-	void putOrderItem(OrderItem orderItem, long orderItemId);
+	OrderItem putOrderItem(OrderItem orderItem, long orderItemId);
 	
 
 

@@ -23,16 +23,20 @@ public class UserController {
 	@Autowired
 	UserService service;
 	
-	@GetMapping
+	@GetMapping("/getAll")
 	public List<User> getUsers(){
 		return service.getUsers();
 	}
 	
-	@GetMapping("/get/{userId}")
+	@GetMapping("/getById/{userId}")
 	public User getUserById(@PathVariable(name = "userId") long userId) throws UserNotFoundException {
 		return service.getUserById(userId);
 	}
 	
+	@GetMapping("/getByEmail/{email}")
+	public List<User> getUserByEmail(@PathVariable(name = "email") String email) throws UserNotFoundException {
+		return service.getUserByEmail(email);
+	}
 	
 	@PostMapping("/post")
 	public User postUser(@Valid @RequestBody User user) {
@@ -40,8 +44,8 @@ public class UserController {
 	}
 	
 	@PutMapping("/put/{userId}")
-	public void updateUser(@PathVariable(name = "userId") Long userId,@RequestBody User user) throws UserNotFoundException {
-		service.updateUser(userId,user);
+	public User updateUser(@PathVariable(name = "userId") Long userId,@RequestBody User user) throws UserNotFoundException {
+		return service.updateUser(userId,user);
 	}
 	
 	@DeleteMapping("/delete/{userId}")
@@ -50,14 +54,11 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/email/{email}")
-	public User getUserByEmail(@PathVariable(name = "email") String email) throws UserNotFoundException {
-		return service.getUserByEmail(email);
-	}
+	
 	
 	@PutMapping("/addItemToWishList/user/{userId}/item/{itemId}")
-	public void addItemToWishList(@PathVariable("userId") long userId,@PathVariable("itemId") long itemId) {
-		service.addItemToWishList(userId,itemId);
+	public User addItemToWishList(@PathVariable("userId") long userId,@PathVariable("itemId") long itemId) {
+		return service.addItemToWishList(userId,itemId);
 		
 	}
 	

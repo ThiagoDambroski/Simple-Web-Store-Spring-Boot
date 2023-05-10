@@ -22,16 +22,16 @@ public class ItemController {
 	@Autowired
 	ItemService service;
 	
-	@GetMapping
+	@GetMapping("/getAll")
 	public List<Item> allItens(){
 		return service.fetchAll();
 	}
-	@GetMapping("/get/{itemId}")
+	@GetMapping("/getById/{itemId}")
 	public Item getItemById(@PathVariable(value = "itemId") Long itemId) throws ItemNotFoundException {
 		return service.getItemById(itemId);
 	}
 	
-	@GetMapping("/name/{name}")
+	@GetMapping("/getByName/{name}")
 	public List<Item> getItemByName(@PathVariable(value = "name") String name) throws ItemNotFoundException {
 		return service.getItemByName(name);
 	}
@@ -53,18 +53,27 @@ public class ItemController {
 	}
 	
 	@PutMapping("/put/{itemId}")
-	public void putItem(@PathVariable(value = "itemId") Long itemId, @RequestBody Item item) throws ItemNotFoundException
+	public Item putItem(@PathVariable(value = "itemId") Long itemId, @RequestBody Item item) throws ItemNotFoundException
 	, InvalidRequestException {
-		service.updateItem(itemId,item);
+		 return service.updateItem(itemId,item);
 	}
 	
 	
 	
 	@PutMapping("/giveDiscount/{itemId}/{discountPercentage}")
-	public void giveItemUpdate(@PathVariable(value = "itemId") long id, @PathVariable(value = "discountPercentage") 
+	public Item giveItemUpdate(@PathVariable(value = "itemId") long id, @PathVariable(value = "discountPercentage") 
 			double discount) {
-		service.giveItemDiscount(id,discount);
+		return service.giveItemDiscount(id,discount);
 		
+	}
+	@PutMapping("addCategory/{itemId}/{categoryId}")
+	public Item addCategory(@PathVariable("itemId") long id, @PathVariable("categoryId") long categoryId) {
+		return service.addCategory(id,categoryId);
+	}
+	
+	@PutMapping("removeCategory/{itemId}/{categoryId}")
+	public Item removeCategory(@PathVariable("itemId") long id, @PathVariable("categoryId") long categoryId) {
+		return service.removeCategory(id,categoryId);
 	}
 	
 	

@@ -30,10 +30,8 @@ public class OrderItem implements Serializable {
 	@Id
 	@SequenceGenerator(name = "order_item_sequence",sequenceName = "order_item_sequence",allocationSize = 1)
 	@GeneratedValue(generator = "order_item_sequence",strategy = GenerationType.SEQUENCE)
-	private long OrderItemId;
+	private long orderItemId;
 	
-	
-	private long idItem;
 	
 	
 	@ManyToOne

@@ -1,6 +1,6 @@
 package com.dambroski.webStoreProject.Order;
 
 public enum OrderStatus {
-	PROCESSING,PAID
+	PROCESSING,PAID,CANCELLED
 
 }

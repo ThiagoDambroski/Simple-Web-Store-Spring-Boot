@@ -1,10 +1,15 @@
 package com.dambroski.webStoreProject.Order;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +18,12 @@ import com.dambroski.webStoreProject.Itens.Item;
 import com.dambroski.webStoreProject.Itens.ItemRepository;
 import com.dambroski.webStoreProject.OrderItem.OrderItem;
 import com.dambroski.webStoreProject.OrderItem.OrderItemRepository;
+import com.dambroski.webStoreProject.User.User;
 import com.dambroski.webStoreProject.User.UserRepository;
+import com.dambroski.webStoreProject.error.CanNotPaidCancelledOrderException;
+import com.dambroski.webStoreProject.error.OrderItemNotFoundException;
+import com.dambroski.webStoreProject.error.OrderNotFoundException;
+import com.dambroski.webStoreProject.error.UserNotFoundException;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,93 +45,74 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void postOrder(Order order,Long userId) throws Exception {
-		if(order.getUser() == null) {
-			order.setUser(userRepository.findById(userId).get());
+	public Order postOrder(Order order,long userId) throws Exception {
+		Optional<User> user = userRepository.findById(userId);
+		if(user.isEmpty()) {
+			throw new UserNotFoundException("User " + userId + " Not found");
 		}
+		order.setUser(user.get());
+		
 		if(order.getItens() == null) {
 			order.setItens(new HashSet<OrderItem>());
-			for (Long id : order.getIdItens()) {
-				order.getItens().add(orderItemRepository.findById(id).get());
+			for (Long id : order.getItensId()) {
+				Optional<OrderItem> opOrderItem = orderItemRepository.findById(id);
+				if(opOrderItem.isEmpty()) {
+					throw new OrderItemNotFoundException("Order Item id: " + id + " notFound");
+				}
+				order.getItens().add(opOrderItem.get());
 			}
 		}
 		
 		
 		Set<OrderItem> list = order.getItens();
 		for (OrderItem orderItem : list) {
-			if (orderItem.getItem().getStock() < orderItem.getQuantity()) {
-				throw new Exception("this not enough itens in stock");
-			} else {
-				Item newItem = orderItem.getItem();
-				newItem.setStock(newItem.getStock() - orderItem.getQuantity());
-				itemRepository.save(newItem);
-			}
-			repository.save(order);
-
-		}
-		;
-
-	}
-
-	@Override
-	public void deleteOrder(long orderId) {
-		Order newOrder = repository.findById(orderId).get();
-		Set<OrderItem> list = newOrder.getItens();
-		for (OrderItem orderItem : list) {
 			Item newItem = orderItem.getItem();
-			newItem.setStock(newItem.getStock() + orderItem.getQuantity());
+			newItem.setStock(newItem.getStock() - orderItem.getQuantity());
 			itemRepository.save(newItem);
-			orderItemRepository.deleteById(orderItem.getOrderItemId());
 			
-		}
-		
-		repository.deleteById(orderId);
-		
+
+		};
+		order.setStatus(OrderStatus.PROCESSING);
+		order.setDate(new Date());
+		return repository.save(order);
 
 	}
+
 
 	@Override
-	public void updateOrder(Order order, long orderId) {
-		Order oldOrder = repository.findById(orderId).get();
-		order.setItens(new HashSet<OrderItem>());
-		for (Long id : order.getIdItens()) {
-			order.getItens().add(orderItemRepository.findById(id).get());
-		}
-		Set<OrderItem> listNewItem = order.getItens();
-		Set<OrderItem> listOldItem = oldOrder.getItens();
-
-		if (Objects.nonNull(order.getIdItens())) {
-
-			oldOrder.setItens(order.getItens());
-		}
-
-		for (OrderItem orderItem : listOldItem) {
-			for (OrderItem orderItem2 : listNewItem) {
-				if (orderItem.getIdItem() == orderItem2.getIdItem()) {
-					int difference = orderItem2.getQuantity() - orderItem.getQuantity();
-					Item newItem = orderItem.getItem();
-					newItem.setStock(newItem.getStock() - difference);
-					itemRepository.save(newItem);
-				}
-			}
-		}
-		if (Objects.nonNull(order.getDate())) {
-			oldOrder.setDate(order.getDate());
-		}
-
-		if (Objects.nonNull(order.getStatus())) {
-			oldOrder.setStatus(order.getStatus());
-		}
-		repository.save(oldOrder);
-
+	public Order cancelOrder(long orderId) {
+		Order order = repository.findById(orderId)
+				.orElseThrow(() -> new OrderItemNotFoundException("Order Not Found"));
+		
+		List<Item> itemsToUpadate = order.getItens().stream()
+				.map(orderItem -> {
+					Item item = orderItem.getItem();
+					item.setStock(orderItem.getQuantity() + item.getStock());
+					return item;
+				})
+				.collect(Collectors.toList());
+		
+		
+		itemRepository.saveAll(itemsToUpadate);
+		
+		order.setStatus(OrderStatus.CANCELLED);
+		
+		return repository.save(order);
 	}
+
 
 	@Override
-	public void updateStatusOrder(long orderId, OrderStatus status) {
-		Order newOrder = repository.findById(orderId).get();
-		newOrder.setStatus(status);
-		repository.save(newOrder);
-
+	public Order paidOrder(long orderId) {
+		Order order = repository.findById(orderId)
+				.orElseThrow(()-> new OrderNotFoundException("Order Not found") );
+		
+		if(order.getStatus() == OrderStatus.CANCELLED) {
+			throw new CanNotPaidCancelledOrderException("This Order is Already cancelled");
+		}
+		
+		order.setStatus(OrderStatus.PAID);
+		return repository.save(order);
 	}
 
+	
 }

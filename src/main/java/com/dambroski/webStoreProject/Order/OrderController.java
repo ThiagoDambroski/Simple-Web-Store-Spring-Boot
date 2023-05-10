@@ -19,31 +19,25 @@ public class OrderController {
 	@Autowired
 	OrderService service;
 	
-	@GetMapping()
+	@GetMapping("/getAll")
 	public List<Order> getOrders(){
 		return service.getOrders();
 	}
 	
-	@PostMapping("/{userId}")
-	public void postOrders(@RequestBody Order order ,@PathVariable Long userId) throws Exception {
-		service.postOrder(order,userId);
+	@PostMapping("/post/{userId}")
+	public Order postOrders(@RequestBody Order order,@PathVariable("userId") long userId ) throws Exception {
+		return service.postOrder(order,userId);
+	}
+
+	
+	@PutMapping("cancelOrder/{orderId}")
+	public Order cancelOrder(@PathVariable("orderId") long orderId) {
+		return service.cancelOrder(orderId);
 	}
 	
-	@DeleteMapping("/{orderId}")
-	public void deleteOrders(@PathVariable(name = "orderId") long orderId) {
-		service.deleteOrder(orderId);
-	}
-	
-	@PutMapping("/{orderId}")
-	public void updateOrder(@PathVariable(name = "orderId") long orderId,@RequestBody Order order) {
-		service.updateOrder(order,orderId);
-	}
-	
-	@PutMapping("{orderId}/{enum}")
-	public void updateStatusOrder(@PathVariable(name = "orderId") long orderId, 
-			@PathVariable(name = "enum") OrderStatus status) {
-		service.updateStatusOrder(orderId,status);
-		
+	@PutMapping("paidOrder/{orderId}")
+	public Order paidOrder(@PathVariable("orderId") long orderId) {
+		return service.paidOrder(orderId);
 	}
 
 }

@@ -1,33 +1,33 @@
 package com.dambroski.webStoreProject.error;
 
-public class UserNotFoundException extends RuntimeException{
+public class CanNotPaidCancelledOrderException extends RuntimeException{
 
-	public UserNotFoundException() {
+	public CanNotPaidCancelledOrderException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserNotFoundException(String message, Throwable cause, boolean enableSuppression,
+	public CanNotPaidCancelledOrderException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserNotFoundException(String message, Throwable cause) {
+	public CanNotPaidCancelledOrderException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserNotFoundException(String message) {
+	public CanNotPaidCancelledOrderException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserNotFoundException(Throwable cause) {
+	public CanNotPaidCancelledOrderException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
+	
+	
 }

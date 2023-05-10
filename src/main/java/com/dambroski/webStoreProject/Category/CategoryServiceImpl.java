@@ -6,6 +6,8 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.webStoreProject.error.CategoryNotFoundException;
+
 @Service
 public class CategoryServiceImpl implements CategoryService{
 	
@@ -19,11 +21,18 @@ public class CategoryServiceImpl implements CategoryService{
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+	
+	@Override
+	public Category getCategoryById(Long categoryId) {
+		Category category = repository.findById(categoryId)
+				.orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+		return category;
+	}
 
 	@Override
 	public List<Category> findByName(String name) {
-
-		return repository.findByNameCategory(name);
+		
+		return repository.getCategoryByName(name);
 		
 	}
 
@@ -48,7 +57,9 @@ public class CategoryServiceImpl implements CategoryService{
 		
 		
 		
-		return null;
+		return repository.save(newCategory);
 	}
+
+	
 
 }

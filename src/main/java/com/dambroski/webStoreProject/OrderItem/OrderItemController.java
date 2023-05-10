@@ -13,30 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/itemOrder")
+@RequestMapping("/api/orderItem")
 public class OrderItemController {
 	
 	@Autowired
 	OrderItemService service;
 	
-	@GetMapping
+	@GetMapping("/getAll")
 	public List<OrderItem> fetchAll(){
 		return service.fetchAll();
 	}
 	
-	@PostMapping
-	public void postOrderItem(@RequestBody OrderItem orderItem) {
-		service.postOrderItem(orderItem);
+	@PostMapping("/post/{itemId}")
+	public OrderItem postOrderItem(@RequestBody OrderItem orderItem,@PathVariable("itemId") long itemId) {
+		return service.postOrderItem(orderItem,itemId);
 		
 	}
 	
-	@DeleteMapping("{orderItemId}")
+	@DeleteMapping("/deleteById/{orderItemId}")
 	public void deleteOrderItem(@PathVariable(name = "orderItemId") long orderItemId) {
 		service.deleteOrderItem(orderItemId);
 	}
 	
-	@PutMapping("{orderItemId}")
-	public void putOrderItem(@PathVariable(name = "orderItemId") long orderItemId,@RequestBody OrderItem orderItem) {
-		service.putOrderItem(orderItem,orderItemId);
+	@PutMapping("/changeQuantity/{orderItemId}")
+	public OrderItem putOrderItem(@PathVariable(name = "orderItemId") long orderItemId,@RequestBody OrderItem orderItem) {
+		return service.putOrderItem(orderItem,orderItemId);
 	}
 }

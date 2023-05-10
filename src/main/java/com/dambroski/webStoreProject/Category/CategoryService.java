@@ -14,5 +14,7 @@ public interface CategoryService {
 
 	Category putCategoryById(Category category, Long id);
 
+	Category getCategoryById(Long categoryId);
+
 	
 }

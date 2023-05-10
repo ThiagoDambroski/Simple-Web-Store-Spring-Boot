@@ -1,6 +1,7 @@
 package com.dambroski.webStoreProject.Order;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +23,10 @@ import javax.persistence.Transient;
 import com.dambroski.webStoreProject.OrderItem.OrderItem;
 import com.dambroski.webStoreProject.User.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +39,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
+@JsonIgnoreProperties({"idItens"})
 public class Order {
 	
 	
@@ -50,8 +56,6 @@ public class Order {
 	private User user;
 	
 	
-	
-	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "order_itens_map",joinColumns = @JoinColumn(
 			name = "order_id", referencedColumnName = "orderId"), inverseJoinColumns = @JoinColumn(
@@ -59,14 +63,17 @@ public class Order {
 	private Set<OrderItem> itens;
 	
 	
-	@ElementCollection(targetClass=Long.class)
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@JsonFormat (with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-	private List<Long> idItens;
+	@ElementCollection(targetClass = Long.class)
+	private List<Long> itensId;
+
 	
 	private OrderStatus status;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate date;
+	private Date date;
 	
 	@Transient
 	public double getTotal() {
@@ -76,6 +83,8 @@ public class Order {
 		}
 		return total;
 	}
+	
+	
 	@Override
 	 public Object clone() throws CloneNotSupportedException {
 	 return super.clone();

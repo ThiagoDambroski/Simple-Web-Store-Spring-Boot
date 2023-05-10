@@ -1,5 +1,6 @@
  package com.dambroski.webStoreProject.User;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,17 +37,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getUserByEmail(String email) throws UserNotFoundException {
-		Optional<User> user;
-		if(repository.findByEmail(email) == null) {
-			 user = Optional.empty();
-		}else {
-			user = Optional.of(repository.findByEmail(email));
-		}
+	public List<User> getUserByEmail(String email) throws UserNotFoundException {
+		List<User> user = repository.findByEmail(email);
 		if(user.isEmpty()) {
-			throw new UserNotFoundException("Email " + email + " not found");
+			throw new UserNotFoundException("Email Not Found");
 		}
-		return user.get();
+		return user;
 	}
 
 	@Override
@@ -56,7 +52,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void updateUser(Long userId, User user) throws UserNotFoundException {
+	public User updateUser(Long userId, User user) throws UserNotFoundException {
 		Optional<User> newUser = repository.findById(userId);
 		if(newUser.isEmpty()) {
 			throw new UserNotFoundException("User " + userId + " Not found");
@@ -67,9 +63,10 @@ public class UserServiceImpl implements UserService{
 		}
 		if(Objects.nonNull(user.getEmail()) && !"".equals(user.getEmail())) {
 		
-		newUser.get().setEmail(user.getEmail());
+			newUser.get().setEmail(user.getEmail());
 		}
-		repository.save(newUser.get());
+		
+		return repository.save(newUser.get());
 	}
 
 	@Override
@@ -83,12 +80,12 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public void addItemToWishList(long userId, long itemId) {
+	public User addItemToWishList(long userId, long itemId) {
 		Item item = itemRepository.findById(itemId).get();
 		User user = repository.findById(userId).get();
 		
 		user.getWhishList().add(item);
-		repository.save(user);
+		return repository.save(user);
 		
 	}
 	@Override

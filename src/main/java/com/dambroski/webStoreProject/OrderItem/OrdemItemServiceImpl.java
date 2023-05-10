@@ -2,12 +2,15 @@ package com.dambroski.webStoreProject.OrderItem;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dambroski.webStoreProject.Itens.Item;
 import com.dambroski.webStoreProject.Itens.ItemRepository;
+import com.dambroski.webStoreProject.error.ItemNotFoundException;
+import com.dambroski.webStoreProject.error.NotEnoughItemsException;
 
 @Service
 public class OrdemItemServiceImpl implements OrderItemService {
@@ -30,32 +33,36 @@ public class OrdemItemServiceImpl implements OrderItemService {
 	}
 
 	@Override
-	public void postOrderItem(OrderItem orderItem) {
-		if (orderItem.getItem() == null) {
-			Item newItem = itemRepository.findById(orderItem.getIdItem()).get();
-			orderItem.setItem(newItem);
+	public OrderItem postOrderItem(OrderItem orderItem,long itemId) {
+		Optional<Item> opItem = itemRepository.findById(itemId);
+		if(opItem.isEmpty()) {
+			throw new ItemNotFoundException("Item not found");
 		}
-
-		repository.save(orderItem);
+		if(opItem.get().getStock() < orderItem.getQuantity()) {
+			throw new NotEnoughItemsException("Not enough items in stock");
+		}
+		orderItem.setItem(opItem.get());
+		
+		return repository.save(orderItem);
 
 	}
 
 	@Override
-	public void putOrderItem(OrderItem orderItem, long orderItemId) {
+	public OrderItem putOrderItem(OrderItem orderItem, long orderItemId) {
 		
-		OrderItem oldOrderItem = repository.findById(orderItemId).get();
+		Optional<OrderItem> opItem = repository.findById(orderItemId);
+		if(opItem.isEmpty()) {
+			throw new ItemNotFoundException("Item not found");
+		}
 		
-		if (orderItem.getItem() != oldOrderItem.getItem()) {
-			Item newItem = itemRepository.findById(orderItem.getIdItem()).get();
-			oldOrderItem.setItem(newItem);
-		} 
-		
+		OrderItem oldOrderItem = opItem.get();
+	
 		if (Objects.nonNull(orderItem.getQuantity())) {
 			oldOrderItem.setQuantity(orderItem.getQuantity());
 		}
 
 			
-		repository.save(oldOrderItem);
+		return repository.save(oldOrderItem);
 		
 	
 
