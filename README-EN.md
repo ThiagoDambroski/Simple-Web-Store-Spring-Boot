@@ -1,6 +1,7 @@
 ## Web Store Spring boot Repository
 
-This repository contains a simple webStore in Spring Boot  
+This repository contains a simple webStore in Spring Boot
+You're going to need a MySQL database called "web_application" to work.
 
 - [User](#user)
 - [Item](#item)
@@ -9,7 +10,7 @@ This repository contains a simple webStore in Spring Boot
 - [Order](#order)
 - [Postman collection](Web Store Spring.postman_collection.json)
 
-	<h1 id="user">User</h1>
+  <h1 id="user">User</h1>
   http://localhost:8080/api/user/
 
   <h2>User Properties:</h2>
@@ -20,7 +21,7 @@ This repository contains a simple webStore in Spring Boot
       <li>WhisList (A list of items that the user wishes to purchase later)</li>
     </ul>
   <p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/User/User.java">User Class</p>
-		<h2>User Methods:</h2>
+  	<h2>User Methods:</h2>
     <table>
       <tr>
         <th>Method</th>
@@ -68,12 +69,11 @@ This repository contains a simple webStore in Spring Boot
         <td>Removes an item from a user's wishlist based on their id and the item id</td>
       </tr>
     </table>
-	<p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/User/UserServiceImpl.java">User Service Implementation</p>
-	
+  <p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/User/UserServiceImpl.java">User Service Implementation</p>
 
   <h1 id="item">Item</h1>
-	http://localhost:8080/api/item
-  
+  http://localhost:8080/api/item
+
   <h2>Item Properties:</h2>
     <ul>
       <li>ItemId</li>
@@ -84,7 +84,7 @@ This repository contains a simple webStore in Spring Boot
       <li>Users (List of users who added this item to their wishlist)</li>
     </ul>
   <p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/Itens/Item.java">Item.class</p>
-	<h2>Item Methods:</h2>
+  <h2>Item Methods:</h2>
     <table>
       <tr>
         <th>Method</th>
@@ -131,22 +131,21 @@ This repository contains a simple webStore in Spring Boot
         <td>/giveDiscount/:itemId/:discountPercentage</td>
         <td>Apply a discount to a specific item based on its ID and a discount percentage (an integer value).</td>
       </tr>
-			<tr>
+  <tr>
         <td> Add a Category to an Item </td>
-				<td>/addCategory/:itemId/:categoryId</td>
-				<td>Adds a category to an item based on their ID</td>
-      </tr>
-				<td>Remove a Category from an Item</td>
-				<td>/removeCategory/:itemId/:categoryId</td>
-		    <td>Removes a category from an item based on its ID</td>
-			</tr>
+  	<td>/addCategory/:itemId/:categoryId</td>
+  	<td>Adds a category to an item based on their ID</td>
+    </tr>
+  	<td>Remove a Category from an Item</td>
+  	<td>/removeCategory/:itemId/:categoryId</td>
+      <td>Removes a category from an item based on its ID</td>
+  </tr>
     </table>
-		<p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/Itens/ItemServiceimpl.java">ItemServiceImpl.class</p>
-	
+  	<p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/Itens/ItemServiceimpl.java">ItemServiceImpl.class</p>
 
   <h1 id="Category">Category</h1>
-	http://localhost:8080/api/category
-  
+  http://localhost:8080/api/category
+
   <h2>Category Properties:</h2>
     <ul>
       <li>categoryId</li>
@@ -154,7 +153,7 @@ This repository contains a simple webStore in Spring Boot
       <li>Itens (items that are in this category) </li>
     </ul>
   <p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/Category/Category.java">Category.class</p>
-	<h2>Category Methods:</h2>
+  <h2>Category Methods:</h2>
     <table>
       <tr>
         <th>Method</th>
@@ -163,13 +162,13 @@ This repository contains a simple webStore in Spring Boot
       </tr>
       <tr>
         <td> Get All Categories </td>
-				<td>/getAll</td>
-				<td>Returns all categories</td>
+  			<td>/getAll</td>
+  			<td>Returns all categories</td>
       </tr>
       <tr>
         <td> Get Category By Id </td>
-				<td>/getCategoryById/:categoryId</td>
-				<td>Returns a category based on its ID</td>
+  			<td>/getCategoryById/:categoryId</td>
+  			<td>Returns a category based on its ID</td>
       </tr>
       <tr>
         <td> Get Category By Name </td>
@@ -192,7 +191,8 @@ This repository contains a simple webStore in Spring Boot
         <td>Edits a category based on their id</td>
       </tr>
     </table>
-		<p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/Category/CategoryServiceImpl.java">CategoryServiceImpl.class</p>
+  	<p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/Category/CategoryServiceImpl.java">CategoryServiceImpl.class</p>
+
 <h1 id="order-item">Order Item</h1>
 	http://localhost:8080/api/orderItem
 	<p>This class serves as a shopping cart item, receiving an Item and a quantity. It also has a function that returns the total price (serving as an aid in posting the Order).</p>
@@ -234,6 +234,7 @@ This repository contains a simple webStore in Spring Boot
       </tr>
     </table>
 <p><a href="https://github.com/ThiagoDambroski/Spring-Boot-Project/blob/main/src/main/java/com/dambroski/webStoreProject/OrderItem/OrdemItemServiceImpl.java">orderItemServiceImpl.class</p>
+
 <h1 id="order">Order </h1>
 	http://localhost:8080/api/order
 	<p>This class is the order made, it retrieves the ids of the items in the cart to form the order information, it also requires a user</p>
