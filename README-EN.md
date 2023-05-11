@@ -1,6 +1,6 @@
 ## Web Store Spring boot Repository
 
-This repository contains a simple webStore in Spring Boot
+<p>This repository contains a simple webStore in Spring Boot</p>
 You're going to need a MySQL database called "web_application" to work.
 
 - [User](#user)

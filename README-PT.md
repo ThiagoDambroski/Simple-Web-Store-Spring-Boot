@@ -1,6 +1,6 @@
 ## Repositório Web Store Spring Boot
 
-Este repositório contém uma loja virtual simples em Spring Boot.
+<p>Este repositório contém uma loja virtual simples em Spring Boot.</p>
 Você vai precisar de um banco de dados MySql chamado "web_application" para funcionar.
 
 - [Usuário](#user)
