@@ -18,7 +18,7 @@ public interface UserService {
 
 	public User getUserById(long userId) throws UserNotFoundException;
 
-	public List<User> getUserByEmail(String email) throws UserNotFoundException;
+	public User getUserByEmail(String email) throws UserNotFoundException;
 
 	public User addItemToWishList(long userId, long itemId);
 

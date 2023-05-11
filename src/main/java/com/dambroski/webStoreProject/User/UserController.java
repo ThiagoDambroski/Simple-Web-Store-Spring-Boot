@@ -34,7 +34,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/getByEmail/{email}")
-	public List<User> getUserByEmail(@PathVariable(name = "email") String email) throws UserNotFoundException {
+	public User getUserByEmail(@PathVariable(name = "email") String email) throws UserNotFoundException {
 		return service.getUserByEmail(email);
 	}
 	
