@@ -8,7 +8,7 @@ Você vai precisar de um banco de dados MySql chamado "web_application" para fun
 - [Category](#category)
 - [Order Item](#order-item)
 - [Order](#order)
-- [Postman collection](Web Store Spring.postman_collection.json)
+- [Postman collection](./Web%20Store%20Spring.postman_collection.json)
 <h1 id="user">Usuário</h1>
   http://localhost:8080/api/user/
   <h2>Propriedades do Usuário:</h2>
