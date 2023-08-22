@@ -1,6 +1,5 @@
  package com.dambroski.webStoreProject.User;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,11 +28,10 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public User getUserById(long userId) throws UserNotFoundException {
-		Optional<User> user = repository.findById(userId);
-		if(user.isEmpty()) {
-			throw new UserNotFoundException("User " + userId + " Not found");
-		}
-		return user.get();
+		User user = repository.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException("User " + userId + " Not found"));		
+			
+		return user;
 	}
 
 	@Override
