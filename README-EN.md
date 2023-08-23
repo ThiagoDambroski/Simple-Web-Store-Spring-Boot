@@ -237,7 +237,7 @@ You're going to need a MySQL database called "web_application" to work.
 
 <h1 id="order">Order </h1>
 	http://localhost:8080/api/order
-	<p>This class is the order made, it retrieves the ids of the items in the cart to form the order information, it also requires a user</p>
+	<p>This class represents an order and gathers the IDs of the items in the cart to compose the order information. Additionally, it requires association with a user.</p>
   
   <h2>Order Properties:</h2>
     <ul>
